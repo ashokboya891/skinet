@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
  });
 builder.Services.AddScoped<IProductRepository,ProductRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,4 +42,6 @@ catch(Exception ex)
 {
     logger.LogError(ex,"An Error Occured during migrartion");
 }
+
+
 app.Run();
