@@ -1,11 +1,13 @@
 
 using API.DTOs;
 using API.Errors;
+using API.Middleware;
 using AutoMapper;
 using Core.Entites;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,11 +33,14 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductsSpecParams productsSpecParams)  //instead of writing like this (string sort,int? brandId,int? typeId ) we minimised out code by adding new class core.specifications.PorductsParams
         {
-            var spec=new ProductsWithTypesAndBrandsSpecification();
+            var spec=new ProductsWithTypesAndBrandsSpecification(productsSpecParams);
+            var countSpec=new ProductWithFiltersForCountSpecification(productsSpecParams);
+            var totalItems=await _productRepo.CountAsync(countSpec);
             var products= await _productRepo.ListAsync(spec);
-            return Ok( _mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductToReturnDto>>(products));
+            var data=_mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductToReturnDto>>(products);
+            return Ok(new Pagination<ProductToReturnDto>(productsSpecParams.PageIndex,productsSpecParams.PageSize,totalItems,data));
             // auto mapper removed below code
             // return products.Select(product=>new ProductToReturnDto
             // {
@@ -50,6 +55,7 @@ namespace API.Controllers
             // }).ToList();
         }
         [HttpGet("{id}")]
+        // below two lines represents that what this method will return to swagger
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 
