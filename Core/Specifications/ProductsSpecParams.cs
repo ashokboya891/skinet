@@ -1,6 +1,6 @@
 namespace Core.Specifications
 {
-    public class ProductsSpecParams
+    public class  ProductsSpecParams
     {
         private const int MaxPageSize=50;
         public int PageIndex{set;get;}=1;
