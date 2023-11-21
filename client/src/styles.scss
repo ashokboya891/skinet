@@ -2,6 +2,10 @@
 
 /* Importing Bootstrap SCSS file. */
 
-
+@import url('../node_modules/font-awesome/css/font-awesome.min.css');
 
 /* Importing Datepicker SCSS file. */
+@import url('../node_modules/bootstrap/dist/css/bootstrap.css');
+
+// @import url('../node_modules/bootstrap/scss/bootstrap.min.css');
+@import url('../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css');
