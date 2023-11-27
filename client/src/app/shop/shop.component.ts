@@ -92,7 +92,6 @@ constructor(private shopService:ShopService) {
   {
     this.shopParams.search=this.searchTerm?.nativeElement.value;
     this.shopParams.pageNumber=1;
-
     this.getProducts();
   }
   onReset()
@@ -100,6 +99,10 @@ constructor(private shopService:ShopService) {
     if(this.searchTerm) this.searchTerm.nativeElement.value='';
     this.shopParams=new ShopParams();
     this.getProducts();
+  }
+  clear()
+  {
+    debugger;
   }
 
 }
