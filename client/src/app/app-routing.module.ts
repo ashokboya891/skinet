@@ -8,7 +8,7 @@ import { ServerErrorComponent } from './core/server-error/server-error.component
 const routes: Routes = [
   {
     path:'',
-    component:HomeComponent
+    component:HomeComponent,data:{breadcrumb:'Home'}
   },
   {
     path:'test-error',
