@@ -16,6 +16,11 @@ import * as cuid from 'cuid';
   }
   export class Basket implements Basket{
     id=cuid();
-    item:BasketItem[]=[];
+    items:BasketItem[]=[];
+  }
+  export interface BasketTotals{
+    shipping:number;
+    subtotal:number;
+    total:number;
   }
   

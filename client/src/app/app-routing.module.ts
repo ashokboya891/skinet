@@ -31,6 +31,10 @@ const routes: Routes = [
     loadChildren:()=>import('./basket/basket.module').then(m=>m.BasketModule)
   },
   {
+    path:'checkout',
+    loadChildren:()=>import('./checkout/checkout.module').then(m=>m.CheckoutModule)
+  },
+  {
     path:'**',
     redirectTo:'',pathMatch:'full'
   },
