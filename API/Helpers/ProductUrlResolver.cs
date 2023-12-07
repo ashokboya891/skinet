@@ -3,7 +3,6 @@
 using API.DTOs;
 using AutoMapper;
 using Core.Entites;
-using Microsoft.Extensions.Configuration;
 
 namespace API.Helpers
 {

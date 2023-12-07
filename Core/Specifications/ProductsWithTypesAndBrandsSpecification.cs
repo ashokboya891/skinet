@@ -1,5 +1,3 @@
-
-using System.Linq.Expressions;
 using Core.Entites;
 
 namespace Core.Specifications

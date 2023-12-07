@@ -1,6 +1,3 @@
-
-using System.Net.NetworkInformation;
-
 namespace API.Errors
 {
     public class ApiResponse

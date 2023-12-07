@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Errors;
 using Core.Interfaces;
+using Core.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Migrations;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +29,7 @@ namespace API.Extensions
             });
             services.AddScoped<IBasketRepository,BasketRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ITokenService,TokenService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<ApiBehaviorOptions>(Options =>
