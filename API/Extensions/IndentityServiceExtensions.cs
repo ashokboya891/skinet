@@ -17,7 +17,7 @@ namespace API.Extensions
         
         services.AddDbContext<AppIdentityDbContext>(opt=>
         {
-            opt.UseSqlite(config.GetConnectionString("IdentityConnection"));
+          opt.UseSqlite(config.GetConnectionString("IdentityConnection"));
         });
         services.AddIdentityCore<AppUser>(opt=>{
           // we can identity options here like email ,password length,timeoutlogin ,attempts failer more

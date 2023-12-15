@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddApplicartionservices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
-
+builder.Services.AddSwaggerDocumentation();
 
 var app = builder.Build();
 
@@ -25,9 +25,7 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 //     app.UseSwagger();
 //     app.UseSwaggerUI();
 // }
- app.UseSwagger();
-    app.UseSwaggerUI();
-
+app.UseSwaggerDocumentation();
 app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");

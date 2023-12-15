@@ -16,6 +16,8 @@ namespace API.Helpers
             .ForMember(d=>d.ProductType,o=>o.MapFrom(s=>s.ProductType.Name))
             .ForMember(d=>d.PictureUrl,o=>o.MapFrom<ProductUrlResolver>());  //this line resposnible for attching http url for images
             CreateMap<Address,AddressDto>().ReverseMap();
+            CreateMap<CustomerBasketDto,CustomerBasket>();
+            CreateMap<BasketItemDto,BasketItem>();
         }
         
     }
