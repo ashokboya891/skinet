@@ -17,5 +17,8 @@ export class NavBarComponent {
   {
     return items.reduce((sum,item)=>sum+item.quantity,0)
   }
+  // logout()
+  // {
 
+  // }
 }
