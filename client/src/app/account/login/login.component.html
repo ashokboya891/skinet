@@ -4,19 +4,30 @@
             <div class="text-center mb-4">
                 <h1 class="mb-3">Login</h1>
             </div>
-            <div class="form-floating mb-3">
-                <input type="email" formControlName="email" class="form-control" id="floatingInput" placeholder="Email">
-                <label for="floatingInput">Email address</label>
-              </div>
+              <app-test-inputs [formControl]="loginForm.controls['email']"[label]="'Email Address'"></app-test-inputs>
+              <app-test-inputs [formControl]="loginForm.controls['password']" type="password" [label]="'Password...'"> </app-test-inputs>
+              <!-- <app-test-inputs [formControl]="loginForm.controls['Date']" type="Date" [label]="'Date...'"> </app-test-inputs> -->
+<!--          
               <div class="form-floating">
                 <input type="password" formControlName="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Password</label>
-              </div>
+              </div> -->
               <div class="d-grid">
-                <button class="btn btn-lg btn-primary mt-3" type="submit">
+                <button [disabled]="loginForm.invalid" class="btn btn-lg btn-primary mt-3" type="submit">
                         Sign-In
                 </button>
               </div>
         </form>
     </div>
+    <!-- <div class="col-4 ms-6">
+      <p>email status={{loginForm.status}}</p>
+      <p>email status={{loginForm.get('email')?.status}}</p>
+
+      <p>email touched={{loginForm.get('email')?.touched}}</p>
+
+      <p>email dirty={{loginForm.get('email')?.dirty}}</p>
+      <p>{{loginForm.value|json}}</p>
+
+
+    </div> -->
 </div>

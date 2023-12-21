@@ -1,1 +1,35 @@
-<p>register works!</p>
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-3">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="text-center mb-4">
+                <h1 class="mb-3">Sign-up</h1>
+            </div>
+              <app-test-inputs [formControl]="registerForm.controls['displayName']"[label]="'Name Here...'"></app-test-inputs>
+              <app-test-inputs [formControl]="registerForm.controls['email']"[label]="'Email Here...'"></app-test-inputs>
+              <app-test-inputs [formControl]="registerForm.controls['password']" type="password" [label]="'Password...'"> </app-test-inputs>
+      
+              <ul class="text-danger list-unstyled" *ngIf="errors">
+                <li *ngFor="let error of errors">
+                  {{error}}
+
+                </li>
+              </ul>
+              <div class="d-grid">
+                <button [disabled]="registerForm.invalid" class="btn btn-lg btn-primary mt-3" type="submit">
+                        Sign-In
+                </button>
+              </div>
+        </form>
+    </div>
+    <!-- <div class="col-4 ms-6">
+      <p>email status={{registerForm.status}}</p>
+      <p>email status={{registerForm.get('email')?.status}}</p>
+
+      <p>email touched={{registerForm.get('email')?.touched}}</p>
+
+      <p>email dirty={{registerForm.get('email')?.dirty}}</p>
+      <p>{{registerForm.value|json}}</p>
+
+
+    </div> -->
+</div>
