@@ -1,6 +1,7 @@
 
 using System.Text.Json;
 using Core.Entites;
+using Core.Entites.OrderAggregate;
 
 namespace Infrastructure.Data
 {
@@ -28,6 +29,13 @@ namespace Infrastructure.Data
         }
         if(context.ChangeTracker.HasChanges())  await context.SaveChangesAsync();
 
+        if(!context.DeliveryMethods.Any())
+        {
+            var deliveryData=File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+            var methods=JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+            context.DeliveryMethods.AddRange(methods);
+        }
+        if(context.ChangeTracker.HasChanges())  await context.SaveChangesAsync();
        } 
         
     }
