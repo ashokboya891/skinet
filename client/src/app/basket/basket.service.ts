@@ -4,6 +4,7 @@ import { BehaviorSubject, isEmpty } from 'rxjs';
 import { Basket, BasketItem, BasketTotals } from '../shared/models/Basket';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../shared/models/product';
+import { deliveryMethod } from '../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,20 @@ export class BasketService {
   basketSource$=this.basketSource.asObservable();
   private  basketTotalSource=new BehaviorSubject<BasketTotals| null>(null);
   basketTotalSourc$=this.basketTotalSource.asObservable();
+  shipping=0;
   
   constructor(private http:HttpClient) { }
+  setShippingPrice(deliveryMethod:deliveryMethod)
+  {
+    this.shipping=deliveryMethod.price;
+    this.calculateTotals();
+  }
   getBasket(id:string)
   {
     return this.http.get<Basket>(this.baseUrl+'basket?id='+id).subscribe({
       next:basket=>{
         this.basketSource.next(basket)
+        // console.log(this.basketSource+'printing after getting it from observables');
         this.calculateTotals()
       }
     })
@@ -67,11 +75,22 @@ export class BasketService {
   deleteBasket(basket: Basket) {
     return this.http.delete(this.baseUrl+'basket?id='+basket.id).subscribe({
       next:()=>{
-        this.basketSource.next(null);
-        this.basketTotalSource.next(null);
-        localStorage.removeItem('basket_id');
+        this.deleteLocalBasket();
       }
+      //below part cmnt in sec 19 after order placed basket as to remove from both localstorage & redis there also we invoking this and here also to bin symbol in checkout
+      // next:()=>{
+      //   this.basketSource.next(null);
+      //   this.basketTotalSource.next(null);
+      //   localStorage.removeItem('basket_id');
+      // }
     })
+  }
+  deleteLocalBasket()
+  {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
+
   }
 
   
@@ -113,10 +132,10 @@ export class BasketService {
   {
     const basket=this.getCurrentBasketValue();
     if(!basket) return;
-    const shipping=0;
+    // const shipping=0;
     const subtotal=basket.items.reduce((a,b)=>(b.price*b.quantity)+a,0);
-    const total=subtotal+shipping;
-    this.basketTotalSource.next({shipping,total,subtotal});
+    const total=subtotal+this.shipping;
+    this.basketTotalSource.next({shipping:this.shipping,total,subtotal});
   }
 
   private isProduct(item:Product| BasketItem):item is Product

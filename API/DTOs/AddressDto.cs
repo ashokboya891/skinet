@@ -23,7 +23,7 @@ namespace API.DTOs
         public string State{set;get;}
         [Required]
 
-        public string ZipCode{set;get;}
+        public string Zipcode{set;get;}
 
     }
 }

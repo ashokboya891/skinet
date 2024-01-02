@@ -9,7 +9,7 @@ namespace API.DTOs
     public class OrderDto
     {
         public string BasketID{set;get;}
-        public int deliveryMethodId{set;get;}
+        public int DeliveryMethodId{set;get;}
         public AddressDto ShipToAddress{set;get;}
     }
 }

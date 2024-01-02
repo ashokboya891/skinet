@@ -30,7 +30,7 @@ namespace API.Controllers
         {
             var email=HttpContext.User.RetrieveEmailFromPrinciple();
             var address=_mapper.Map<AddressDto,Address>(orderDto.ShipToAddress);
-            var order=await _orderService.CreateOrderAsync(email,orderDto.deliveryMethodId,orderDto.BasketID,address);
+            var order=await _orderService.CreateOrderAsync(email,orderDto.DeliveryMethodId,orderDto.BasketID,address);
             if(order==null ) return BadRequest(new ApiResponse(400,"Problem creating Order"));
             return Ok(order);
             

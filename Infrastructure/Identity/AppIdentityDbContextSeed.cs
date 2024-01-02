@@ -22,7 +22,7 @@ namespace Infrastructure.Identity
                         Street="rajamandiram",
                         City="ayodya",
                         State="UP",
-                        ZipCode="218343"
+                        Zipcode="218343"
                     }
 
                 };
