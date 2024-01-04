@@ -35,7 +35,7 @@ namespace Infrastructure.Services
                 var DeliveryMethod=await _unitOfWork.Repository<DeliveryMethod>()
                 .GetByIdAsync((int)basket.DeliveryMethodId);
                 shippingPrice=DeliveryMethod.Price;
-                Console.WriteLine("inside if"+basket.DeliveryMethodId);
+                // Console.WriteLine("inside if"+basket.DeliveryMethodId);
 
             }
             foreach(var item in basket.Items)

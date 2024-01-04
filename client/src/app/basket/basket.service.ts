@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { BehaviorSubject, isEmpty } from 'rxjs';
+import { BehaviorSubject, isEmpty, map } from 'rxjs';
 import { Basket, BasketItem, BasketTotals } from '../shared/models/Basket';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../shared/models/product';
@@ -15,21 +15,41 @@ export class BasketService {
   basketSource$=this.basketSource.asObservable();
   private  basketTotalSource=new BehaviorSubject<BasketTotals| null>(null);
   basketTotalSourc$=this.basketTotalSource.asObservable();
-  shipping=0;
+  
   
   constructor(private http:HttpClient) { }
+  
+  createPaymentIntent()
+  {
+    return  this.http.post<Basket>(this.baseUrl+'payments/'+this.getCurrentBasketValue()?.id,{})
+    .pipe(
+      map(basket=>{
+        this.basketSource.next(basket);
+        console.log(basket.paymentIntentId);
+      })
+    )
+  }
+
   setShippingPrice(deliveryMethod:deliveryMethod)
   {
-    this.shipping=deliveryMethod.price;
-    this.calculateTotals();
+    const basket=this.getCurrentBasketValue();
+    // this.shipping=deliveryMethod.price;
+    if(basket) 
+    {
+    basket.shippingPrice=deliveryMethod.price
+      basket.deliveryMethodId=deliveryMethod.id;
+      this.setBasket(basket);
+    }
+    // this.calculateTotals(); cmtnd in sec-21 after stripe and setshipping updated
   }
+
   getBasket(id:string)
   {
     return this.http.get<Basket>(this.baseUrl+'basket?id='+id).subscribe({
       next:basket=>{
         this.basketSource.next(basket)
         // console.log(this.basketSource+'printing after getting it from observables');
-        this.calculateTotals()
+        this.calculateTotals() 
       }
     })
 
@@ -134,8 +154,8 @@ export class BasketService {
     if(!basket) return;
     // const shipping=0;
     const subtotal=basket.items.reduce((a,b)=>(b.price*b.quantity)+a,0);
-    const total=subtotal+this.shipping;
-    this.basketTotalSource.next({shipping:this.shipping,total,subtotal});
+    const total=subtotal+basket.shippingPrice;
+    this.basketTotalSource.next({shipping:basket.shippingPrice,total,subtotal});
   }
 
   private isProduct(item:Product| BasketItem):item is Product
