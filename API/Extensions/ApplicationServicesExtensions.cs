@@ -1,8 +1,9 @@
 using API.Errors;
 using Core.Interfaces;
-using Core.Services;
+using Infrastructure.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Migrations;
+// using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -27,6 +28,7 @@ namespace API.Extensions
 
             });
             services.AddScoped<IBasketRepository,BasketRepository>();
+            services.AddScoped<IPaymentService,PaymentService>();
             services.AddScoped<IOrderService,OrderService>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();

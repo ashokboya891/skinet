@@ -15,6 +15,10 @@ namespace Core.Entites
 
         public string Id{set;get;}
         public List<BasketItem> Items{set;get;}=new List<BasketItem>();
+        public int? DeliveryMethodId{set;get;}
+        public string  ClientSecret{set;get;}
+        public string PaymentIntentId{set;get;}
+
         
     }
 
