@@ -21,9 +21,13 @@ namespace API.Extensions
             {
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
-            services.AddSingleton<IConnectionMultiplexer>(c=>
+            services.AddSingleton<IConnectionMultiplexer>(c =>
             {
-                var options=ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
+                var options = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
+                options.AbortOnConnectFail = false; // Allow the multiplexer to continue retrying
+                options.ConnectRetry = 5; // Number of retri+es before giving up (adjust as needed)
+                options.ConnectTimeout = 5000; // Connection timeout in milliseconds (adjust as needed)
+
                 return ConnectionMultiplexer.Connect(options);
 
             });
