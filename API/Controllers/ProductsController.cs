@@ -1,6 +1,7 @@
 
 using API.DTOs;
 using API.Errors;
+using API.Helpers;
 using API.Middleware;
 using AutoMapper;
 using Core.Entites;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+
     // [ApiController]
     // [Route("api/[controller]")]
     public class ProductsController : BaseApiController
@@ -28,7 +30,7 @@ namespace API.Controllers
             _productType = productType;
             _productRepo = productRepo; 
         }
-
+        [Cached(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductsSpecParams productsSpecParams)  //instead of writing like this (string sort,int? brandId,int? typeId ) we minimised out code by adding new class core.specifications.PorductsParams
         {
@@ -51,6 +53,8 @@ namespace API.Controllers
                 
             // }).ToList();
         }
+        [Cached(600)]
+
         [HttpGet("{id}")]
         // below two lines represents that what this method will return to swagger
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -75,13 +79,17 @@ namespace API.Controllers
 
             // };
         }
- 
+
+        [Cached(600)]
         [HttpGet("brands")]
         // 
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             return Ok(await _productBrand.ListAllAsync());
         }
+
+        
+        [Cached(600)]
         [HttpGet("types")]
         // 
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetTypesBrands()

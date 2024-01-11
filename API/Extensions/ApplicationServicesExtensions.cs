@@ -15,6 +15,7 @@ namespace API.Extensions
         public static IServiceCollection AddApplicartionservices(this IServiceCollection services
         , IConfiguration config)
         {
+            services.AddSingleton<IResponseCacheService,ReponseCacheService>();
 
         
             services.AddDbContext<StoreContext>(opt =>
